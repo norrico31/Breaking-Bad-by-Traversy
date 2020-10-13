@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
-const Search = ({ getQuery }) => {
+const Search = ({ setQuery }) => {
     const [text, setText] = useState('')
 
-    const onChange = (q) => {
+    const onChange = q => {
         setText(q)
-        getQuery(q)
+        setQuery(q)
     }
 
     return (
@@ -17,4 +18,7 @@ const Search = ({ getQuery }) => {
     )
 }
 
+Search.propTypes = {
+    setQuery: PropTypes.func.isRequired
+}
 export default Search

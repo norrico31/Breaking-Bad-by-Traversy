@@ -10,23 +10,27 @@ const App = () => {
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [query, setQuery] = useState('')
+  const [debouncedQuery, setDebouncedQuery] = useState(query)
+
+  useEffect(() => {
+    const queryTimer = setTimeout(() => {
+      setDebouncedQuery(query)
+    }, 1000)
+    return () => clearTimeout(queryTimer)
+  }, [query])
   
   useEffect(() => {
-      const fetchItems = async () => {
-        const result = await axios(`https://www.breakingbadapi.com/api/characters?name=${query}`)
-
-        //console.log(result.data)
+      axios.get(`https://www.breakingbadapi.com/api/characters?name=${debouncedQuery}`)
+      .then(result => {
         setItems(result.data)
         setIsLoading(false)
-      }
-
-      fetchItems()
-  }, [query])
+      }).catch(err => console.log(err.message))
+  }, [debouncedQuery])
 
   return (
     <div className="container">
         <Header />
-        <Search getQuery={q => { setQuery(q)}}/>
+        <Search setQuery={setQuery}/>
         <CharacterGrid isLoading={isLoading} items={items} />
     </div>
   );
