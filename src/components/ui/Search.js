@@ -12,7 +12,7 @@ const Search = ({ setQuery }) => {
     return (
         <section className="search">
             <form>
-                <input type="text" className="form-control" placeholder='Search characters' autoFocus value={text} onChange={(e) => onChange(e.target.value)}/>
+                <input type="text" className="form-control" placeholder='Search characters' autoFocus value={text} onChange={e => onChange(e.target.value)}/>
             </form>
         </section>
     )
